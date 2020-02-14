@@ -1,10 +1,10 @@
 package com.finalproject.quizsystem.service.impl;
 
 
+import com.finalproject.quizsystem.service.QuestionService;
 import com.finalproject.quizsystem.repository.QuestionRepository;
 import com.finalproject.quizsystem.entity.Answer;
 import com.finalproject.quizsystem.entity.Question;
-import com.finalproject.quizsystem.service.QuestionService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,13 +22,13 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> findAllByTestId(Long id) {
-        return questionRepository.findAllByTestId(id);
+        return questionRepository.findAllByQuizId(id);
     }
 
     @Override
     public List<Question> getIncorrectAnsweredQuestions(Long testId, Set<Long> answeredQuestions) {
         List<Question> incorrectUserQuestions = new ArrayList<>();
-        List<Question> questions = questionRepository.findAllByTestId(testId);
+        List<Question> questions = questionRepository.findAllByQuizId(testId);
         for(Question q : questions){
             boolean isCorrectQuestion = true;
             for (Answer a : q.getAnswers()){

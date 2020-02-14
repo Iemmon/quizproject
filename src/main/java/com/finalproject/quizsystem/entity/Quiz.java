@@ -1,13 +1,20 @@
 package com.finalproject.quizsystem.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "quiz")
 @Data
-public class Test {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +28,9 @@ public class Test {
     @JoinColumn(name="topic_id")
     private Topic topic;
 
-    @OneToMany(mappedBy = "test", orphanRemoval=true, cascade=CascadeType.PERSIST)
+    @OneToMany(mappedBy = "quiz", orphanRemoval=true, cascade=CascadeType.PERSIST)
     private List<Result> results;
 
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "quiz")
     private List<Question> questions;
 }

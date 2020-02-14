@@ -1,25 +1,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/style.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 
-<form action="registration" method="POST">
-    <div>
-        <label>email</label>
-        <input type="email" name="email"/>
-    </div>
-    <div>
-        <label >password</label>
-        <input type="password" name="password"/>
 
+<form class="registration-form" th:object="${userRaw}" action="registration" method="POST">
+    <div th:if="${#fields.hasErrors('email')}">
+        Email is not valid
     </div>
-    <div>
-        <label >confirm</label>
-        <input type="password" name="passconf"/>
+    <div th:if="${#fields.hasErrors('passconf')}">
+        Passwords is not valid
     </div>
-    <button type="submit" >submit</button>
+    <table>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" th:field="*{email}"/></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>
+                <input type="password" th:field="*{password}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Confirm password</td>
+            <td><input type="password" th:field="*{passconf}"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Sign Up"/></td>
+            <td><a href="/login">Have an account? Login!</a></td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Topics</title>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"> </header>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>TOPIC</th>
+    </tr>
+    <tr th:each="topic : ${topics}">
+        <td th:text="${topic.getId()}"></td>
+        <td>
+            <a th:href="@{/user/quizes(topic_id=${topic.getId()})}" th:text="${topic.getName()}"></a>
+        </td>
+    </tr>
+</table>
+<table>
+
+</body>
+</html>

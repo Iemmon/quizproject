@@ -1,12 +1,19 @@
 package com.finalproject.quizsystem.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "question")
 public class Question {
 
     @Id
@@ -18,8 +25,8 @@ public class Question {
     private String question;
 
     @ManyToOne
-    @JoinColumn(name = "test_id")
-    private Test test;
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
 
     @OneToMany(mappedBy = "question", orphanRemoval=true, cascade=CascadeType.PERSIST)
     private List<Answer> answers;

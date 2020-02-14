@@ -1,6 +1,5 @@
 package com.finalproject.quizsystem.service;
 
-
 import com.finalproject.quizsystem.entity.Result;
 
 import java.util.List;

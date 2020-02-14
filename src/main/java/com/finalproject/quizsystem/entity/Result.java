@@ -1,11 +1,17 @@
 package com.finalproject.quizsystem.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Data@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "result")
 public class Result {
     @Id
     @Column(name="id")
@@ -13,8 +19,8 @@ public class Result {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "test_id")
-    private Test test;
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
 
     @ManyToOne
     @JoinColumn(name="user_id")

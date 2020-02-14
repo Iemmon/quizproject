@@ -1,3 +1,30 @@
 body {
-    background: black;
+    background: #cdd2ff;
+    margin: 100px auto;
 }
+
+.login-form,.registration-form {
+    border: 1px solid #76a2ff;
+    padding: 40px;
+    width: 400px;
+    margin: 100px auto;
+    display: block;
+    background-color: lightblue;
+}
+
+.error {
+    padding: 40px;
+    width: 700px;
+    margin: 100px auto;
+    display: block;
+}
+
+.users {
+    margin: 100px auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.pages {
+    margin: 100px auto;
+}
+

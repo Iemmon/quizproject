@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+    <meta charset="UTF-8" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="header">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-1">
+                <script type="text/javascript">
+
+                    function addParameterToURL(param){
+                        let _url = location.href.replace("?lang=ru", "").replace("&lang=ru", "").replace("?lang=en", "").replace("&lang=en", "");
+                        _url += (_url.split('?')[1] ? '&':'?') + param;
+                        return _url;
+                    }
+
+                    function changeLang(){
+                        const lang = document.querySelector("select[name=language]").value;
+                        window.location.replace(addParameterToURL("lang=" + lang));
+                    }
+                </script>
+                <select name="language" onchange="changeLang()">
+                    <option value="">select language</option>
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

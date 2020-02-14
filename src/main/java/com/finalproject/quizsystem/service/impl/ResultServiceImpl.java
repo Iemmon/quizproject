@@ -1,8 +1,8 @@
 package com.finalproject.quizsystem.service.impl;
 
+import com.finalproject.quizsystem.service.ResultService;
 import com.finalproject.quizsystem.repository.ResultRepository;
 import com.finalproject.quizsystem.entity.Result;
-import com.finalproject.quizsystem.service.ResultService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public List<Result> getAllResults(Long user) {
-        return resultRepository.findAllByUserId(user);
+    public List<Result> getAllResults(Long id) {
+        return resultRepository.findAllByUserId(id);
     }
 }

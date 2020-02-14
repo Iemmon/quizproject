@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions</title>
+</head>
+<body>
+<form method="post" action="/user/result">
+<ol >
+    <li th:each="question : ${questions}" >
+        <span th:text="${question.getQuestion()}"></span>
+        <div th:each="answer : ${question.getAnswers()}">
+            <input type="checkbox" name="result" th:value="${answer.getId()}"/><span th:text="${answer.getAnswerOption()}"></span>
+        </div>
+    </li>
+</ol>
+<input type="hidden" th:value="${param.quiz_id}" name="quiz_id"/>
+<input type="submit"/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+</form>
+</body>
+</html>

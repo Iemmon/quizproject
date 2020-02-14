@@ -1,13 +1,19 @@
 package com.finalproject.quizsystem.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "topic")
 public class Topic {
 
     @Id
@@ -16,8 +22,8 @@ public class Topic {
     private Long id;
 
     @Column(name="name")
-    private String topicName;
+    private String name;
 
     @OneToMany(mappedBy = "topic", orphanRemoval=true, cascade=CascadeType.PERSIST)
-    private List<Test> tests;
+    private List<Quiz> quizzes;
 }

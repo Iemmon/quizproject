@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+</head>
+<body>
+<ol>
+    <li th:each="question : ${questions}">
+        <span th:text="${question.getQuestion()}"></span>
+        <div th:each="answer : ${question.getAnswers()}"
+             th:style="${selected.contains(answer.getId()) && !answer.isCorrect() ? 'color:red' : ''}"
+             th:styleappend="${answer.isCorrect() ? 'color: green':''}">
+            <span th:text="${answer.getAnswerOption()}"></span>
+            <span th:text="${answer.isCorrect()}"></span>
+        </div>
+    </li>
+</ol>
+</body>
+</html>

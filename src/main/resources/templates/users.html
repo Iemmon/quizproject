@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+<head>
+    <title>Users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<table class="users">
+    <tr>
+        <th>User ID</th>
+        <th></th>
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd" th:each="user : ${users.getContent()}">
+        <td th:text="${user.getId()}"></td>
+        <td th:text="${user.getEmail()}"></td>
+    </tr>
+</table>
+<table class="pages">
+    <tr>
+        <td th:each="pageNumber : ${#numbers.sequence(0, users.getTotalPages()-1)}" >
+            <a th:href="@{/admin/users(page=${pageNumber})}" th:text=${pageNumber+1}></a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

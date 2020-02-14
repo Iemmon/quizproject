@@ -1,10 +1,23 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<table>
+    <tr>
+        <th>Topic</th>
+        <th>Test</th>
+        <th>Score</th>
 
+    </tr>
+    <tr th:each="result : ${results}">
+        <td th:text="${result.getQuiz().getTopic().getName()}"></td>
+        <td th:text="${result.getQuiz().getName()}"></td>
+        <td th:text="${result.getScore()}"></td>
+    </tr>
+</table>
 </body>
 </html>

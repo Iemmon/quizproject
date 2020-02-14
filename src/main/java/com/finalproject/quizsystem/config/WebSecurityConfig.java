@@ -1,4 +1,4 @@
-package com.finalproject.quizsystem;
+package com.finalproject.quizsystem.config;
 
 import com.finalproject.quizsystem.entity.Role;
 import com.finalproject.quizsystem.service.UserService;
@@ -9,12 +9,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final  UserService userService;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     public WebSecurityConfig(UserService userService, PasswordEncoder passwordEncoder) {
@@ -22,23 +23,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/registration", "/css/**");
+   @Override
+    public void configure(WebSecurity webSecurity){
+        webSecurity.ignoring().antMatchers("/registration", "/css/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user/home").hasRole(Role.STUDENT.toString())
+                .antMatchers("/user/**").hasRole(Role.STUDENT.toString())
+                .antMatchers("/admin/**").hasRole(Role.ADMIN.toString())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/", true)
+                .loginPage("/login").defaultSuccessUrl("/main", true)
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.finalproject.quizsystem.service.impl;
 
 import com.finalproject.quizsystem.repository.TopicRepository;
-import com.finalproject.quizsystem.entity.Topic;
 import com.finalproject.quizsystem.service.TopicService;
+import com.finalproject.quizsystem.entity.Topic;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

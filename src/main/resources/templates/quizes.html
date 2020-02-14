@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+</head>
+<body>
+<ol>
+    <li th:each="quiz : ${quizes}"><a th:href="@{/user/questions(quiz_id=${quiz.getId()})}" th:text="${quiz.getName()}"></a>
+    </li>
+</ol>
+</body>
+</html>
