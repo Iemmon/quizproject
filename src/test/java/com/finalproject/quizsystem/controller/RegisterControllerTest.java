@@ -14,8 +14,9 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RegisterController.class)
@@ -33,8 +34,11 @@ public class RegisterControllerTest {
 
         when(userService.register(anyString(), anyString())).thenReturn(user);
 
-        mvc.perform(post("/registration"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("registration"));
+        mvc.perform(post("/registeration")
+                .with(csrf())
+                .param("email", "emailuser@gmail.com")
+                .param("password", "password")
+                .param("passconf", "password"))
+                .andExpect(status().isOk());
     }
 }

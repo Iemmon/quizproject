@@ -55,7 +55,7 @@ public class UserControllerTest {
         when(userService.loadUserByUsername(anyString())).thenReturn(user);
 
         List<Result> userResults = new ArrayList<>();
-        when(resultService.getAllResults(anyLong())).thenReturn(userResults);
+//        when(resultService.getAllResults(anyLong())).thenReturn(userResults);
 
         mvc.perform(get("/user/home"))
                 .andExpect(status().isOk())

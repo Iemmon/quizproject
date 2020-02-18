@@ -6,6 +6,7 @@ import com.finalproject.quizsystem.service.QuizService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -19,5 +20,10 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<Quiz> findAllByTopicId(Long id) {
         return quizRepository.findAllByTopicId(id);
+    }
+
+    @Override
+    public Optional<Quiz> findById(Long id) {
+        return quizRepository.findById(id);
     }
 }

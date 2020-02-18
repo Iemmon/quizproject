@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    //TODO: add validator
 
     @Override
     public UserDetails loadUserByUsername(String email) {

@@ -3,6 +3,9 @@ package com.finalproject.quizsystem.service.impl;
 import com.finalproject.quizsystem.service.ResultService;
 import com.finalproject.quizsystem.repository.ResultRepository;
 import com.finalproject.quizsystem.entity.Result;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +24,13 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public List<Result> getAllResults(Long id) {
-        return resultRepository.findAllByUserId(id);
+    public Page <Result> getAllResults(Long id, Pageable pageable) {
+        long count = resultRepository.countAllByUserId(id);
+        int maxPages = (int) count / pageable.getPageSize();
+        int currentPageNum = pageable.getPageNumber();
+        if (currentPageNum > maxPages) {
+            pageable = PageRequest.of(0, 5);
+        }
+        return resultRepository.findAllByUserId(id, pageable);
     }
 }

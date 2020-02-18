@@ -15,12 +15,15 @@ public class PassconfValidator implements ConstraintValidator<PassConf, Object> 
     public boolean isValid(Object o, ConstraintValidatorContext context) {
         UserDTO user = (UserDTO) o;
 
-        if(user != null && user.getPassword() != null && user.getPassword().length() > 0 && user.getPassword().contentEquals(user.getPassconf())){
+        if(user != null && user.getPassword() != null
+                && user.getPassword().length() > 0
+                && user.getPassword().contentEquals(user.getPassconf())){
             return true;
         }
 
         context.disableDefaultConstraintViolation();
-        context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addNode("passconf").addConstraintViolation();
+        context.buildConstraintViolationWithTemplate(context
+                .getDefaultConstraintMessageTemplate()).addNode("passconf").addConstraintViolation();
         return false;
     }
 }

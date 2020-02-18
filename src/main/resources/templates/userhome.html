@@ -13,10 +13,17 @@
         <th>Score</th>
 
     </tr>
-    <tr th:each="result : ${results}">
+    <tr th:each="result : ${results.getContent()}">
         <td th:text="${result.getQuiz().getTopic().getName()}"></td>
         <td th:text="${result.getQuiz().getName()}"></td>
         <td th:text="${result.getScore()}"></td>
+    </tr>
+</table>
+<table class="pages">
+    <tr>
+        <td th:each="pageNumber : ${#numbers.sequence(0, results.getTotalPages()-1)}" >
+            <a th:href="@{''(page=${pageNumber})}" th:text=${pageNumber+1}></a>
+        </td>
     </tr>
 </table>
 </body>
