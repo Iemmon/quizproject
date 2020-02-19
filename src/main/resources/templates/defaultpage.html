@@ -7,13 +7,22 @@
     <title>Main</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="/css/style.css"/>  `
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"> </header>
-<div sec:authorize="hasRole('STUDENT')"><a href="/user/home">Home</a></div>
-<div sec:authorize="hasRole('STUDENT')"><a href="/user/topics">Take a quiz</a></div>
-<div sec:authorize="hasRole('ADMIN')"><a href="/admin/users">View users</a></div>
-<span th:text="#{login}"></span>
+<div class="container">
+    <div class="row">
+        <div class="col main-content">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">Hello!</h1>
+                    <p class="lead">Welcome to the best quiz website! Enjoy out variaty of different questions in JAVA, SQL and other topics. I have spent sooo many hours collecting questions for these tests.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="fragments/general.html :: footer"> </footer>
 </body>
 </html>

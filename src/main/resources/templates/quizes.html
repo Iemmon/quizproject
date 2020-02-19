@@ -4,11 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<ol>
-    <li th:each="quiz : ${quizes}"><a th:href="@{/user/questions(quiz_id=${quiz.getId()})}" th:text="${quiz.getName()}"></a>
-    </li>
-</ol>
+<header th:insert="fragments/general.html :: header"> </header>
+<div class="container">
+    <div class="row">
+        <div class="col main-content">
+            <ol class="two-columns">
+                <li th:each="quiz : ${quizes}">
+                    <a th:href="@{/user/questions(quiz_id=${quiz.getId()})}" th:text="${quiz.getName()}"></a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+<footer th:insert="fragments/general.html :: footer"> </footer>
 </body>
 </html>

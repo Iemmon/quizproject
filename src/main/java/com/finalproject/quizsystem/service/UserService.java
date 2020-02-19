@@ -14,4 +14,6 @@ public interface UserService extends UserDetailsService {
     Optional<User> register(String email, String password);
 
     Page<User> findAllUsers(Pageable pageable);
+
+    Page<User> findAllUsersWithScore(Pageable pageable);
 }

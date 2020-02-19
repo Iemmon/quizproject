@@ -70,4 +70,11 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public User(Long id, String email, Double score, Role role) {
+        this.id = id;
+        this.email = email;
+        this.averageMark = score;
+        this.role = role;
+    }
 }

@@ -4,22 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Topics</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"> </header>
+<div class="container">
+    <div class="row">
+        <div class="col main-content">
+            <ol class="two-columns">
+                <li th:each="topic : ${topics}">
+                    <a th:href="@{/user/quizes(topic_id=${topic.getId()})}" th:text="${topic.getName()}"></a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
 <table>
-    <tr>
-        <th>ID</th>
-        <th>TOPIC</th>
-    </tr>
-    <tr th:each="topic : ${topics}">
-        <td th:text="${topic.getId()}"></td>
-        <td>
-            <a th:href="@{/user/quizes(topic_id=${topic.getId()})}" th:text="${topic.getName()}"></a>
-        </td>
-    </tr>
-</table>
-<table>
-
+    <footer th:insert="fragments/general.html :: footer"> </footer>
 </body>
 </html>

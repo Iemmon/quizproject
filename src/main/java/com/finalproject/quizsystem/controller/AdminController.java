@@ -25,7 +25,7 @@ public class AdminController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String viewUsersList(Model model, Pageable pageable) {
-        Page<User> page = userService.findAllUsers(pageable);
+        Page<User> page = userService.findAllUsersWithScore(pageable);
         model.addAttribute("users", page);
         return "users";
     }

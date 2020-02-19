@@ -27,6 +27,7 @@ public class UserController {
     private final TopicService topicService;
     private final QuizService quizService;
     private final QuestionService questionService;
+    private final MailSender mailSender;
 
     @RequestMapping(value = "/home")
     public String getAllResults(Model model, Principal user, Pageable pageable) {
@@ -35,6 +36,7 @@ public class UserController {
 
         Page<Result> resultList = resultService.getAllResults(u.getId(), pageable);
         model.addAttribute("results", resultList);
+
         return "userhome";
     }
 
@@ -77,6 +79,9 @@ public class UserController {
             User u = (User) userService.loadUserByUsername(email);
             Result result = Result.builder().score(score).user(u).quiz(quiz.get()).build();
             resultService.saveResult(result);
+
+            mailSender.sendResult(user, result);
+
             return "result";
         } else {
             throw new NoSuchElementException();

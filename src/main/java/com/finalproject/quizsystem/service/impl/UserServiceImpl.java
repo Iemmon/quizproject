@@ -61,9 +61,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         long count = userRepository.count();
         int maxPages = (int) count / pageable.getPageSize();
         int currentPageNum = pageable.getPageNumber();
-        if (currentPageNum > maxPages) {
+        if (currentPageNum >= maxPages) {
             pageable = PageRequest.of(0, 5);
         }
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<User> findAllUsersWithScore(Pageable pageable) {
+        long count = userRepository.count();
+        int maxPages = (int) count / pageable.getPageSize();
+        int currentPageNum = pageable.getPageNumber();
+        if (currentPageNum >= maxPages) {
+            pageable = PageRequest.of(0, 5);
+        }
+        return userRepository.findAllUsersWithScore(pageable);
     }
 }

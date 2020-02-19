@@ -4,20 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<ol>
-    <li th:each="question : ${questions}">
-        <span th:text="${question.getQuestion()}"></span>
-        <div th:each="answer : ${question.getAnswers()}"
-             th:style="${selected.contains(answer.getId()) && !answer.isCorrect() ? 'color:red' : ''}"
-             th:styleappend="${answer.isCorrect() ? 'color: green':''}">
-            <span th:text="${answer.getAnswerOption()}"></span>
-            <span th:text="${answer.isCorrect()}"></span>
+<header th:insert="fragments/general.html :: header"></header>
+<div class="container">
+    <div class="row">
+        <div class="col main-content">
+            <div class="text-center">
+                <h3>Your score is <strong th:text="${score}"></strong></h3>
+            </div>
+            <ul>
+                <li th:each="question : ${questions}" class="question-item">
+                    <span th:text="${question.getQuestion()}" class="question"></span>
+                    <div th:each="answer : ${question.getAnswers()}"
+                         th:style="${selected.contains(answer.getId()) && !answer.isCorrect() ? 'color:red' : ''}"
+                         th:styleappend="${answer.isCorrect() ? 'color: green':''}">
+                        <span th:text="${answer.getAnswerOption()}"></span>
+                        <!--<span th:text="${answer.isCorrect()}"></span>-->
+                    </div>
+                </li>
+            </ul>
         </div>
-    </li>
-</ol>
-
-<span> Your score is <span th:text="${score}"></span></span>
+    </div>
+</div>
+<footer th:insert="fragments/general.html :: footer"> </footer>
 </body>
 </html>
