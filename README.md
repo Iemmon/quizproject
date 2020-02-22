@@ -30,6 +30,8 @@ mvn spring-boot:run
 mvn clean install
 java -jar target/*.jar
 ```
+- to check user functionality - sign up
+- to check admin functionality - sign up and set role to ADMIN manually in your database
 
 ## Running the tests
 
