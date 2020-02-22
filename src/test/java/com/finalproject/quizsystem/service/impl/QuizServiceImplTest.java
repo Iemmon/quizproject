@@ -10,11 +10,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QuizServiceImplTest {
@@ -23,13 +23,23 @@ public class QuizServiceImplTest {
     private QuizRepository quizRepository;
 
     @InjectMocks
-    private QuizServiceImpl testService;
+    private QuizServiceImpl quizService;
 
     @Test
     public void findAllShouldReturnListOfQuizzes(){
         List<Quiz> tests = new ArrayList<>();
 
-        assertEquals(tests, testService.findAllByTopicId(anyLong()));
+        assertEquals(tests, quizService.findAllByTopicId(anyLong()));
         verify(quizRepository, atLeastOnce()).findAllByTopicId(anyLong());
     }
+
+    @Test
+    public void findByIdShouldReturnSingleQuiz(){
+        Quiz quiz = new Quiz();
+        when(quizRepository.findById(anyLong())).thenReturn(Optional.of(quiz));
+
+        Optional<Quiz> quiz1 = quizService.findById(1L);
+        assertEquals(quiz, quiz1.get());
+    }
+
 }

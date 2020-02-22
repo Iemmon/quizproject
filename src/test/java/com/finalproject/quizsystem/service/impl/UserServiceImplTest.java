@@ -8,12 +8,16 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -33,8 +37,11 @@ public class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
+    @Mock
+    private Pageable pageable;
+
     @Test
-    public void loadUserByUsername() {
+    public void loadUserByUsernameShouldReturnUser() {
         User user = User.builder().email(EMAIL).build();
 
         when(userRepository
@@ -58,4 +65,37 @@ public class UserServiceImplTest {
         verify(passwordEncoder).encode(PASS);
         verify(userRepository).save(user);
     }
+
+    @Test
+    public void isExistShouldReturnTrueWhenUserExists(){
+        String email = "email@gmail.com";
+        when(userRepository.findOneByEmail(anyString())).thenReturn(Optional.of(User.builder().build()));
+
+        assertTrue(userService.isExist(email));
+        verify(userRepository).findOneByEmail(eq(email));
+    }
+
+    @Test
+    public void isExistShouldReturnFalseWhenUserDoesntExist(){
+        String email = "email@gmail.com";
+        when(userRepository.findOneByEmail(anyString())).thenReturn(Optional.empty());
+
+        assertFalse(userService.isExist(email));
+        verify(userRepository).findOneByEmail(eq(email));
+    }
+
+    @Test
+    public void findAllUsersWithScoreShouldReturnPage(){
+        long count = 10L;
+
+        Page<User> users = mock(Page.class);
+        when(userRepository.count()).thenReturn(count);
+        when(pageable.getPageSize()).thenReturn(10);
+
+        when(userRepository.findAllUsersWithScore(pageable)).thenReturn(users);
+
+        Page<User> userResults = userService.findAllUsersWithScore(pageable);
+        assertEquals(users, userResults);
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.finalproject.quizsystem.controller;
 
+import com.finalproject.quizsystem.entity.Result;
 import com.finalproject.quizsystem.entity.User;
+import com.finalproject.quizsystem.service.ResultService;
 import com.finalproject.quizsystem.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,24 +24,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AdminControllerTest {
 
     @Autowired
-    public MockMvc mvc;
+    private MockMvc mvc;
 
     @MockBean
-    public UserService userService;
+    private UserService userService;
 
-    @Autowired
-    public AdminController adminController;
+    @MockBean
+    private ResultService resultService;
 
     @Test
     @WithMockUser(roles = "ADMIN")
     public void viewUsersListShouldReturnString() throws Exception {
 
         Page<User> page = mock(Page.class);
-        when(userService.findAllUsers(any(Pageable.class))).thenReturn(page);
+        when(userService.findAllUsersWithScore(any(Pageable.class))).thenReturn(page);
 
         mvc.perform(get("/admin/users"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"))
                 .andExpect(model().attribute("users", page));
     }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void getUserResultsShouldRedirectToUserResultsPage() throws Exception {
+        Page<Result> userresults = mock(Page.class);
+        when(resultService.getAllResults(anyLong(), any(Pageable.class))).thenReturn(userresults);
+
+        mvc.perform(get("/admin/user/5"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("userresults"))
+                .andExpect(model().attribute("results", userresults));
+
+    }
+
 }

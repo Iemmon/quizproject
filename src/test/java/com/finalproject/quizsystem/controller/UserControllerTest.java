@@ -7,12 +7,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +50,9 @@ public class UserControllerTest {
     @MockBean
     private QuestionService questionService;
 
+    @MockBean
+    private MailSender mailSender;
+
     @Test
     @WithMockUser(roles = "STUDENT")
     public void getResultsShouldRedirectToResultsPage() throws Exception {
@@ -54,12 +60,12 @@ public class UserControllerTest {
         User user = mock(User.class);
         when(userService.loadUserByUsername(anyString())).thenReturn(user);
 
-        List<Result> userResults = new ArrayList<>();
-//        when(resultService.getAllResults(anyLong())).thenReturn(userResults);
+        Page<Result> userResults = mock(Page.class);
+        when(resultService.getAllResults(anyLong(), any(Pageable.class))).thenReturn(userResults);
 
-        mvc.perform(get("/user/home"))
+        mvc.perform(get("/user/results"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("userhome"))
+                .andExpect(view().name("userresults"))
                 .andExpect(model().attribute("results", userResults));
     }
 
@@ -81,7 +87,7 @@ public class UserControllerTest {
         List<Quiz> quizList = new ArrayList<>();
         when(quizService.findAllByTopicId(anyLong())).thenReturn(quizList);
 
-        mvc.perform(get("/user/quizes"))
+        mvc.perform(get("/user/quizes").param("topic_id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("quizes"))
                 .andExpect(model().attribute("quizes", quizList));
@@ -93,22 +99,25 @@ public class UserControllerTest {
         List<Question> questionList = new ArrayList<>();
         when(questionService.findAllByTestId(anyLong())).thenReturn(questionList);
 
-        mvc.perform(get("/user/questions"))
+        mvc.perform(get("/user/questions").param("quiz_id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("questions"))
                 .andExpect(model().attribute("questions", questionList));
     }
 
+
     @Test
     @WithMockUser(roles = "STUDENT")
     public void getResultShouldRedirectToResultPage() throws Exception {
+        Principal mockPrincipal = mock(Principal.class);
         Set<Long> selected = new HashSet<>();
         List<Question> checkedQuestions = new ArrayList<>();
         when(questionService.getIncorrectAnsweredQuestions(anyLong(), anySet())).thenReturn(checkedQuestions);
 
-//
-//        mvc.perform(post("/user/result"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_FORM_URLENCODED));
+        mvc.perform(post("/user/result"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("questions", checkedQuestions))
+                .andExpect(model().attribute("selected", selected))
+                .andExpect(content().contentType(MediaType.APPLICATION_FORM_URLENCODED));
     }
 }
