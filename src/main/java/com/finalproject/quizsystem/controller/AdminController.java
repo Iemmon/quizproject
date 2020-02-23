@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -34,6 +33,6 @@ public class AdminController {
     public String getUserResults(Model model, Pageable pageable, @PathVariable Long userId){
         Page<Result> userresults = resultService.getAllResults(userId, pageable);
         model.addAttribute("results", userresults);
-        return "userhome";
+        return "userresults";
     }
 }

@@ -32,6 +32,7 @@
                 <input class="form-control" type="text" th:field="*{email}" th:placeholder="#{login}"/>
                 <input class="form-control" type="password" th:field="*{password}" th:placeholder="#{password}"/>
                 <input class="form-control" type="password" th:field="*{passconf}" th:placeholder="#{passconf}"/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <input class="btn btn-info" type="submit" th:value="#{signup}"/><br/>
                 <a href="/login" th:text="#{have-acc}"></a>
             </div>

@@ -5,6 +5,7 @@ import com.finalproject.quizsystem.entity.User;
 import com.finalproject.quizsystem.service.UserService;
 import com.finalproject.quizsystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
@@ -52,20 +54,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .role(Role.STUDENT)
                 .build();
         User user = userRepository.save(userToSave);
-        System.out.println(user);
+
         return Optional.of(user);
     }
 
-    @Override
-    public Page<User> findAllUsers(Pageable pageable) {
-        long count = userRepository.count();
-        int maxPages = (int) count / pageable.getPageSize();
-        int currentPageNum = pageable.getPageNumber();
-        if (currentPageNum >= maxPages) {
-            pageable = PageRequest.of(0, 5);
-        }
-        return userRepository.findAll(pageable);
-    }
+//    @Override
+//    public Page<User> findAllUsers(Pageable pageable) {
+//        long count = userRepository.count();
+//        int maxPages = (int) count / pageable.getPageSize();
+//        int currentPageNum = pageable.getPageNumber();
+//        if (currentPageNum >= maxPages) {
+//            pageable = PageRequest.of(0, 5);
+//        }
+//        return userRepository.findAll(pageable);
+//    }
 
     @Override
     public Page<User> findAllUsersWithScore(Pageable pageable) {

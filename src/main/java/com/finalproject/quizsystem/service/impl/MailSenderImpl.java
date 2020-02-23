@@ -2,8 +2,6 @@ package com.finalproject.quizsystem.service.impl;
 
 import com.finalproject.quizsystem.entity.Result;
 import com.finalproject.quizsystem.service.MailSender;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,12 +21,13 @@ public class MailSenderImpl implements MailSender {
     }
 
     @Override
-    public void sendResult(Principal user, Result result) {
+    public void sendResult(Result result) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
-        message.setTo(user.getName());
+        message.setTo(result.getUser().getEmail());
         message.setSubject("Your test result");
         message.setText(String.format("Your score for the test %s is %d", result.getQuiz().getName(), result.getScore()));
+
         emailSender.send(message);
     }
 }

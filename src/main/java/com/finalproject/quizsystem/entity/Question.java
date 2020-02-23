@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "question")
+@Table(name = "questions")
 public class Question {
 
     @Id
@@ -21,11 +21,11 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "question")
+    @Column(name = "question_text", columnDefinition="TEXT")
     private String question;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "test_id")
     private Quiz quiz;
 
     @OneToMany(mappedBy = "question", orphanRemoval=true, cascade=CascadeType.PERSIST)

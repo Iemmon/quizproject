@@ -29,7 +29,7 @@ public class UserController {
     private final QuestionService questionService;
     private final MailSender mailSender;
 
-    @RequestMapping(value = "/home")
+    @RequestMapping(value = "/results")
     public String getAllResults(Model model, Principal user, Pageable pageable) {
         String email = user.getName();
         User u = (User) userService.loadUserByUsername(email);
@@ -37,7 +37,7 @@ public class UserController {
         Page<Result> resultList = resultService.getAllResults(u.getId(), pageable);
         model.addAttribute("results", resultList);
 
-        return "userhome";
+        return "userresults";
     }
 
     @RequestMapping(value = "/topics")
@@ -62,7 +62,7 @@ public class UserController {
         return "questions";
     }
 
-    @RequestMapping(value = "/result", method = RequestMethod.POST)
+    @RequestMapping(value = "/result", method = RequestMethod.POST, params = {"result", "quiz_id"})
     public String getResult(Model model, @RequestParam(value = "result") Long[] results, @RequestParam(value = "quiz_id") Long quizId, Principal user) {
         Set<Long> selected = new HashSet<>(Arrays.asList(results));
         List<Question> incorrectQuestions = questionService.getIncorrectAnsweredQuestions(quizId, selected);
@@ -80,7 +80,8 @@ public class UserController {
             Result result = Result.builder().score(score).user(u).quiz(quiz.get()).build();
             resultService.saveResult(result);
 
-            mailSender.sendResult(user, result);
+            mailSender.sendResult(result);
+            log.info("Mail sender call occurred");
 
             return "result";
         } else {

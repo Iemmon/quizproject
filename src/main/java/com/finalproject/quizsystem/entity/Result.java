@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "result")
+@Table(name = "results")
 public class Result {
     @Id
     @Column(name="id")
@@ -20,7 +20,7 @@ public class Result {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "test_id")
     private Quiz quiz;
 
     @ManyToOne

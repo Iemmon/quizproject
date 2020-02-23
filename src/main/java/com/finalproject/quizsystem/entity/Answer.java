@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "answer")
+@Table(name = "answers")
 public class Answer {
 
     @Id
@@ -20,7 +20,7 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name="answer")
+    @Column(name="answer_text")
     private String answerOption;
 
     @Column(name = "is_correct")
