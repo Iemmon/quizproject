@@ -7,15 +7,16 @@
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<header th:insert="fragments/general.html :: header"> </header>
+<header th:insert="fragments/general.html :: header"></header>
 <div class="container">
     <div class="row">
         <div class="col main-content">
             <table class="generic-table">
                 <tr>
-                    <th>User ID</th>
-                    <th></th>
-                    <th></th>
+                    <th th:text="#{user-id}"></th>
+                    <th th:text="#{email}"></th>
+                    <th th:text="#{role}"></th>
+                    <th th:text="#{avg-mark}"></th>
                 </tr>
                 <tr th:each="user : ${users.getContent()}">
                     <td th:text="${user.getId()}"></td>
@@ -30,20 +31,15 @@
                     </td>
                 </tr>
             </table>
-<!--            <table class="pages">-->
-<!--                <tr>-->
-<!--                    <td th:each="pageNumber : ${#numbers.sequence(0, users.getTotalPages()-1)}" >-->
-<!--                        <a th:href="@{/admin/users(page=${pageNumber})}" th:text=${pageNumber+1}></a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--            </table>-->
-
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, users.getTotalPages()-1)}"><a class="page-link" th:href="@{''(page=${pageNumber})}" th:text=${pageNumber+1}></a></li>
-            </ul>
+            <div th:if="${users.getTotalPages() gt 1}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, users.getTotalPages()-1)}"><a
+                            class="page-link" th:href="@{''(page=${pageNumber})}" th:text=${pageNumber+1}></a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-<footer th:insert="fragments/general.html :: footer"> </footer>
+<footer th:insert="fragments/general.html :: footer"></footer>
 </body>
 </html>

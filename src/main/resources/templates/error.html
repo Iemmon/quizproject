@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
@@ -10,8 +10,8 @@
 <body>
 
 <div class="error">
-<h2>Something went wrong :(</h2>
-<a href="/main">Stay cool and go back to your main page</a>
+<h2 th:text="#{smth-wrong}"></h2>
+<a href="/main" th:text="#{back-to-main}"></a>
 </div>
 </body>
 </html>

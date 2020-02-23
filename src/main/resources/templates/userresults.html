@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -15,9 +14,9 @@
         <div class="col main-content">
             <table class="generic-table">
                 <tr>
-                    <th>Topic</th>
-                    <th>Test</th>
-                    <th>Score</th>
+                    <th th:text="#{topic}"></th>
+                    <th th:text="#{test}"></th>
+                    <th th:text="#{score}"></th>
                 </tr>
                 <tr th:each="result : ${results.getContent()}">
                     <td th:text="${result.getQuiz().getTopic().getName()}"></td>

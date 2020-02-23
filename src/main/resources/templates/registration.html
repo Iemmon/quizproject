@@ -7,35 +7,36 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+    <div class="container-fluid">
 
+        <form th:object="${userRaw}" action="registration" method="POST">
 
-<form class="registration-form" th:object="${userRaw}" action="registration" method="POST">
-    <div th:if="${#fields.hasErrors('email')}">
-        Email is not valid
+            <div th:if="${#fields.hasErrors('email')}" class="row justify-content-center">
+                <div class="col-2">
+                    <div class="alert alert-danger" role="alert">
+                        <p th:text="#{email-not-valid}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${#fields.hasErrors('passconf')}" class="row justify-content-center">
+                <div class="col-2">
+                    <div class="alert alert-danger" role="alert">
+                        <p th:text="#{pass-not-valid}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-form">
+                <h2 class="text-center" th:text="#{signup}"></h2>
+                <input class="form-control" type="text" th:field="*{email}" th:placeholder="#{login}"/>
+                <input class="form-control" type="password" th:field="*{password}" th:placeholder="#{password}"/>
+                <input class="form-control" type="password" th:field="*{passconf}" th:placeholder="#{passconf}"/>
+                <input class="btn btn-info" type="submit" th:value="#{signup}"/><br/>
+                <a href="/login" th:text="#{have-acc}"></a>
+            </div>
+
+        </form>
     </div>
-    <div th:if="${#fields.hasErrors('passconf')}">
-        Passwords is not valid
-    </div>
-    <table>
-        <tr>
-            <td>Email</td>
-            <td><input type="text" th:field="*{email}"/></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td>
-                <input type="password" th:field="*{password}"/>
-            </td>
-        </tr>
-        <tr>
-            <td>Confirm password</td>
-            <td><input type="password" th:field="*{passconf}"/></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Sign Up"/></td>
-            <td><a href="/login">Have an account? Login!</a></td>
-        </tr>
-    </table>
-</form>
 </body>
 </html>

@@ -7,27 +7,32 @@
     <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form class="login-form" th:action="@{/login}" method="post">
-    <table>
-        <tr>
-            <td th:text="#{login}"></td>
-            <td><input type="text" name="username"/></td>
-        </tr>
-        <tr>
-            <td th:text="#{password}"></td>
-            <td><input type="password" name="password"/></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Sign In"/></td>
-            <td><a href="/registration">Don't have an account? SignUp!</a></td>
-        </tr>
-    </table>
-</form>
+    <div class="container-fluid">
+        <div th:if="${param.error}" class="row justify-content-center">
+            <div class="col-2">
+                <div class="alert alert-danger" role="alert">
+                    <p th:text="#{invalid-cred}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${param.logout}" class="row justify-content-center">
+            <div class="col-2">
+                <div class="alert alert-danger" role="alert">
+                    <p th:text="#{logged-out}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-form">
+            <form th:action="@{/login}" method="post">
+                <h2 class="text-center" th:text="#{login}"></h2>
+                <input  class="form-control" type="text" name="username" th:placeholder="#{login}"/>
+                <input class="form-control" type="password" name="password" th:placeholder="#{password}"/>
+                <input class="btn btn-info" type="submit" th:value="#{signin}"/><br />
+                <a href="/registration" th:text="#{need-register}"></a>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
