@@ -55,7 +55,6 @@ public class AdminControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("userresults"))
                 .andExpect(model().attribute("results", userresults));
-
     }
 
 }

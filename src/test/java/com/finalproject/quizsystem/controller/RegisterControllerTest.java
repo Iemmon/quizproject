@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,21 +36,50 @@ public class RegisterControllerTest {
 
     @Test
     public void registrationShouldRegisterSuccessfully() throws Exception {
-        Optional<User> user = Optional.of(new User());
 
+        String username = "emailuser@gmail.com";
+        String password = "password";
+        Optional<User> user = Optional.of(User.builder().email(username).build());
+
+        when(userService.isExist(anyString())).thenReturn(false);
         when(userService.register(anyString(), anyString())).thenReturn(user);
 
-        mvc.perform(post("/registeration")
-                .with(csrf())
-                .param("email", "emailuser@gmail.com")
-                .param("password", "password")
-                .param("passconf", "password"))
-                .andExpect(status().isOk());
+        mvc.perform(post("/registration")
+                .param("email", username)
+                .param("password", password)
+                .param("passconf", password)
+                .with(csrf()))
+                .andExpect(status().isFound());
+
+        verify(userService).register(eq(username), eq(password));
+        verify(userService).isExist(eq(username));
+    }
+
+    @Test
+    public void registrationShouldRegisterFailed() throws Exception {
+
+        String username = "emailuser@gmail.com";
+        String password = "password";
+        Optional<User> user = Optional.of(User.builder().email(username).build());
+
+        when(userService.isExist(anyString())).thenReturn(true);
+        when(userService.register(anyString(), anyString())).thenReturn(user);
+
+        mvc.perform(post("/registration")
+                .param("email", username)
+                .param("password", password)
+                .param("passconf", password)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("registration"));
+
+        verify(userService, never()).register(eq(username), eq(password));
+        verify(userService).isExist(eq(username));
     }
 
     @Test
     public void registrationShouldReturnRegistrationView() throws Exception {
-        mvc.perform(get("/registeration"))
+        mvc.perform(get("/registration"))
                 .andExpect(view().name("registration"))
                 .andExpect(status().isOk());
     }

@@ -2,6 +2,7 @@ package com.finalproject.quizsystem.service.impl;
 
 import com.finalproject.quizsystem.entity.Quiz;
 import com.finalproject.quizsystem.entity.Result;
+import com.finalproject.quizsystem.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,12 +39,9 @@ public class MailSenderImplTest {
         message.setSubject("Your test result");
         message.setText("Your score for the test Test1 is 100");
 
-        Principal principal = mock(Principal.class);
-        when(principal.getName()).thenReturn("someemail@gmail.com");
+        Result result = new Result(1L, Quiz.builder().name("Test1").build(), User.builder().email("someemail@gmail.com").build() ,100);
 
-        Result result = new Result(1L, Quiz.builder().name("Test1").build(), null ,100);
-
-        mailSender.sendResult(principal, result);
+        mailSender.sendResult(result);
 
         verify(emailSender).send(eq(message));
     }

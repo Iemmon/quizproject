@@ -16,14 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -105,19 +102,40 @@ public class UserControllerTest {
                 .andExpect(model().attribute("questions", questionList));
     }
 
-
     @Test
-    @WithMockUser(roles = "STUDENT")
+    @WithMockUser(username="user@gmail.com", roles="STUDENT")
     public void getResultShouldRedirectToResultPage() throws Exception {
-        Principal mockPrincipal = mock(Principal.class);
-        Set<Long> selected = new HashSet<>();
+
+        String username = "user@gmail.com";
+        Long quizId = 5L;
+        List<Long> results = Arrays.asList(5L, 10L);
+        Set<Long> selected = new HashSet<>(results);
+        Integer score = 100;
+
         List<Question> checkedQuestions = new ArrayList<>();
         when(questionService.getIncorrectAnsweredQuestions(anyLong(), anySet())).thenReturn(checkedQuestions);
 
-        mvc.perform(post("/user/result"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("questions", checkedQuestions))
-                .andExpect(model().attribute("selected", selected))
-                .andExpect(content().contentType(MediaType.APPLICATION_FORM_URLENCODED));
+        Quiz quiz = Quiz.builder().questions(Collections.singletonList(Question.builder().build())).build();
+        when( quizService.findById(anyLong())).thenReturn(Optional.of(quiz));
+
+        User currentUser = User.builder().email(username).id(5L).build();
+        when(userService.loadUserByUsername(anyString())).thenReturn(currentUser);
+
+        Result result = Result.builder().score(score).user(currentUser).quiz(quiz).build();
+
+        mvc.perform(post("/user/result").with(csrf())
+                .param("result", Long.toString(results.get(0)))
+                .param("result", Long.toString(results.get(1)))
+                .param("quiz_id", Long.toString(quizId)))
+            .andExpect(status().isOk())
+            .andExpect(model().attribute("questions", checkedQuestions))
+            .andExpect(model().attribute("selected", selected))
+            .andExpect(model().attribute("score", score))
+            .andExpect(view().name("result"));
+
+        verify(resultService).saveResult(eq(result));
+        verify(userService).loadUserByUsername(eq(username));
+        verify(quizService).findById(eq(quizId));
+        verify(mailSender).sendResult(eq(result));
     }
 }

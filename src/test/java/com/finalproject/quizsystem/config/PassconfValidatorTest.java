@@ -29,7 +29,6 @@ public class PassconfValidatorTest {
 
         PassconfValidator validator = new PassconfValidator();
         assertTrue(validator.isValid(user, context));
-
     }
 
     @Test
